@@ -21,12 +21,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: Build and push docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile.prod
           push: true
-          tags:
-            - '${{ secrets.DOCKERHUB_USERNAME }}/argocd-studies-app:latest'
-            - '${{ secrets.DOCKERHUB_USERNAME }}/argocd-studies-app:${{ github.sha }}'
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/argocd-studies-app:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/argocd-studies-app:${{ github.sha }}
