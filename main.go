@@ -7,7 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "My ArgoCD app")
+		fmt.Fprintf(w, "My ArgoCD studies app")
 	})
 
 	http.ListenAndServe(":8080", nil)
