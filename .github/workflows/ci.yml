@@ -54,7 +54,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -am "Github action: Kustomization made by CI run #${{ github.run_number }} set the image tag to ${{ github.sha }}"
+          git commit -am "[Github Action] Run #${{ github.run_id }} defined the image to ${{ github.sha }}"
 
       - name: Push inside repo itself
         uses: ad-m/github-push-action@master
