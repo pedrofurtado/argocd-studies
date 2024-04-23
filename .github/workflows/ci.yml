@@ -40,7 +40,7 @@ jobs:
         with:
           kustomize-version: "3.6.1"
 
-      - name: Update k8s image tag using Kustomize
+      - name: GitOps in same repo - Update k8s image tag using Kustomize
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           GITHUB_SHA_COMMIT: ${{ github.sha }}
@@ -48,7 +48,7 @@ jobs:
           cd k8s
           kustomize edit set image argocd-studies-goapp=$DOCKERHUB_USERNAME/argocd-studies-app:$GITHUB_SHA_COMMIT
 
-      - name: Commit inside repo itself
+      - name: GitOps in same repo - Commit inside repo itself
         env:
           RUN_NUMBER: ${{ github.run_number }}
         run: |
@@ -56,8 +56,27 @@ jobs:
           git config --local user.name "GitHub Action"
           git commit -am "[Github Action] Run #${{ github.run_id }} defined the image to ${{ github.sha }}"
 
-      - name: Push inside repo itself
+      - name: GitOps in same repo - Push inside repo itself
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           repository: pedrofurtado/argocd-studies
+
+      - name: GitOps in separated repo - Update k8s image tag using Kustomize
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          GITHUB_SHA_COMMIT: ${{ github.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          git clone https://github.com/pedrofurtado/argocd-studies-gitops.git
+          cd argocd-studies-gitops/
+          git remote set-url origin https://pedrofurtado:${{ secrets.TOKEN_GITHUB }}@github.com/pedrofurtado/argocd-studies-gitops.git
+
+          cd k8s/
+          kustomize edit set image argocd-studies-goapp=$DOCKERHUB_USERNAME/argocd-studies-app:$GITHUB_SHA_COMMIT
+          cd ../
+
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "[Github Action] Run #${{ github.run_id }} defined the image to ${{ github.sha }}"
+          git push -u origin main
