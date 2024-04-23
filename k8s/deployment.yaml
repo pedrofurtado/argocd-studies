@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argocd-studies-goapp
+spec:
+  selector:
+    matchLabels:
+      app: argocd-studies-goapp
+  template:
+    metadata:
+      labels:
+        app: argocd-studies-goapp
+    spec:
+      containers:
+      - name: argocd-studies-goapp
+        image: argocd-studies-goapp
+        ports:
+        - containerPort: 8080
