@@ -8,4 +8,4 @@ resources:
 images:
 - name: argocd-studies-goapp
   newName: pedrofurtado/argocd-studies-app
-  newTag: 55f36cb53adbe095908594b2a2a67c54317ce556
+  newTag: 389af8639a6f5a0b1d536ce1f22b92c5ea17381e
