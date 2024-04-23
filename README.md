@@ -27,6 +27,9 @@ argocd_app_with_gitops_in_the_same_repo.yaml
 or
 argocd_app_with_gitops_in_separated_repo.yaml
 
+# Access the go app at http://localhost:3010
+kubectl port-forward svc/argocd-studies-goapp-service 3010:8080 --address='0.0.0.0'
+
 # Delete the k8s cluster
 kubectl delete all --all
 kubectl delete "$(kubectl api-resources --namespaced=true --verbs=delete -o name | tr "\n" "," | sed -e 's/,$//')" --all
